@@ -10,13 +10,14 @@ test_derivative01 = @(x) 3*(x.^2)/100 - 2*x/8 + 2 +(6/2)*cos(x/2+6) - exp(x/6)/6
 
 functions = {test_func01, test_derivative01};
 
-% x = newton_solver(functions, 40);
+% [x, x_newton_guesses] = newton_solver(functions, 40);
 
-x = secant_solver(test_func01, 0, 4);
+% [x, x_secant_guesses] = secant_solver(test_func01, 0, 4);
+
 
 x_left = -15;
 x_right = 40;
-% x = bisection_solver(test_func01, x_left, x_right);
+[x, x_bisection_guesses] = bisection_solver(test_func01, x_left, x_right);
 
 
 

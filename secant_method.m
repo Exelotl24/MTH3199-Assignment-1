@@ -7,3 +7,4 @@ for i = 1:iter
           disp(['Root x2', num2str(x2), num2str(i)]);
           return
       end
+end

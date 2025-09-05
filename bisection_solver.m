@@ -11,14 +11,7 @@ function x = bisection_solver(func,x_left,x_right)
     y_mid = func(x_mid);
     y_right = func(x_right);
 
-
-    x = [];
-
-    if (y_left*y_mid)>0 && (y_mid*y_right)>0
-        x = NaN;
-        return;
-    end
-
+    
     if abs(y_mid)<1e-6
         % test if any values are roots
         x = x_mid;
@@ -27,12 +20,12 @@ function x = bisection_solver(func,x_left,x_right)
 
     if (y_left*y_mid)<0
         % if left and mid are different signs, look for root
-        x = [x, bisection_solver(func, x_left, x_mid)];
-    end
-
-    if (y_mid*y_right)<0
+        x = bisection_solver(func, x_left, x_mid);
+    elseif (y_mid*y_right)<0
         % if mid and right are different signs, look for root
-        x = [x, bisection_solver(func, x_mid, x_right)];
+        x = bisection_solver(func, x_mid, x_right);
+    else
+        x = NaN;
     end
     
     

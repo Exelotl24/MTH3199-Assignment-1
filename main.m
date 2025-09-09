@@ -17,7 +17,7 @@ functions = {test_func01, test_derivative01};
 
 x_left = -15;
 x_right = 40;
-[x, x_bisection_guesses] = bisection_solver(test_func01, x_left, x_right);
+[x, x_bisection_guesses] = bisection_solver(test_func01, x_left, x_right)
 
 
 

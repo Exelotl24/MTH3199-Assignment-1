@@ -14,13 +14,10 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     close all
 
     syms x
-    dfdx = diff(fun, x);
-    f_handle   = matlabFunction(fun, 'Vars', x);
-    dfdx_handle = matlabFunction(dfdx, 'Vars', x);
-    functions = {f_handle, dfdx_handle};
+    dfdx = matlabFunction(diff(fun, x), 'Vars', x);
+    functions = {fun, dfdx};
 
-    % Number of tests/iterations to run
-    iters = 100;
+    iters = length(guess_list1);
 
     % Initialize cell arrays
     x_guesses = cell(iters);
@@ -28,31 +25,34 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     X_regression = [];
     Y_regression = [];
 
+    x_root = fzero(fun, x_guess0);
 
+
+    figure()
     for i = 1:iters
-
 
         switch solver_flag
             case 1
                 % bisection
-                [x, x_guesses{i}] = bisection_solver(fun, randi([-200, floor(x_guess0)]), randi([ceil(x_guess0),40]));
+                [~, x_guesses{i}] = bisection_solver(fun, guess_list1(i), guess_list2(i));
             case 2
                 % newton
-                [x, x_guesses{i}] = newton_solver(functions, x_guess0);
+                [~, x_guesses{i}] = newton_solver(functions, guess_list1(i));
             case 3
                 % secant
-                [x, x_guesses{i}] = secant_solver(fun, 0, 4);
+                [~, x_guesses{i}] = secant_solver(fun, guess_list1(i), guess_list2(i));
             case 4
                 % fzero
+                [~, x_guesses{i}] = my_fzero(fun, guess_list1(i));
     
         end
 
         
         
-        error{1, i} = x_guesses{i}(1:end-1) - x;
-        error{2, i} = x_guesses{i}(2:end) - x;
+        error{1, i} = abs(x_guesses{i}(1:end-1) - x_root);
+        error{2, i} = abs(x_guesses{i}(2:end) - x_root);
     
-        loglog(error{1, i},error{2, i} ,'ro','markerfacecolor','r','markersize',1);
+        loglog(error{1, i},error{2, i} ,'ro','markerfacecolor','r','markersize',3);
         hold on
         
         % Filter Data
@@ -60,9 +60,9 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
         for n=1:length(error{1, i})
             %if the error is not too big or too small
             %and it was enough iterations into the trial...
-            if error{1, i}(n)>1e-15 && error{1, i}(n)<1e-2 && ...
-            error{2, i}(n)>1e-14 && error{2, i}(n)<1e-2 && ...
-            n>2
+            if error{1, i}(n)>filter_list(1) && error{1, i}(n)<filter_list(2) && ...
+            error{2, i}(n)>filter_list(3) && error{2, i}(n)<filter_list(4) && ...
+            n>filter_list(5)
                 %then add it to the set of points for regression
                 X_regression(end+1) = error{1, i}(n);
                 Y_regression(end+1) = error{2, i}(n);
@@ -71,17 +71,20 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
         
     end
 
-    loglog(X_regression,Y_regression ,'bo','markerfacecolor','b','markersize',1);
+    loglog(X_regression,Y_regression ,'bo','markerfacecolor','b','markersize',3);
 
     [p, k] = generate_error_fit(X_regression, Y_regression)
+    
+
     %generate x data on a logarithmic range
     fit_line_x = 10.^[-16:.01:1];
     %compute the corresponding y values
     fit_line_y = k*fit_line_x.^p;
     %plot on a loglog plot.
-    loglog(fit_line_x,fit_line_y,'k-','linewidth',2)
-    
-    
+    loglog(fit_line_x,fit_line_y,'k-','linewidth',1)
+
+    xlim([1e-20, 1e5])
+    ylim([1e-20, 1e5])
     xlabel("\epsilon_{n}")
     ylabel("\epsilon_{n+1}")
 

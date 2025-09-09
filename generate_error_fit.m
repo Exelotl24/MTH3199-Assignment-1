@@ -4,8 +4,8 @@
 %y_regression -> e_{n+1}
 %p and k are the output coefficients
 function [p,k] = generate_error_fit(x_regression,y_regression)
-    x_regression
-    y_regression
+    x_regression;
+    y_regression;
     %generate Y, X1, and X2
     %note that I use the transpose operator (')
     %to convert the result from a row vector to a column

@@ -14,11 +14,12 @@ function [x, x_guesses] = secant_solver(func, x0, x1)
 
     % calculate new x
     x = x1 - num/den;
+    x_guesses = x;
 
     % if y is still not 0, start recursion
     if abs(func(x)) > tol
-        x = secant_solver(func, x1, x);
-        x_guesses = [x_guesses, x];
+        [x, x_guess_list] = secant_solver(func, x1, x);
+        x_guesses = [x_guesses, x_guess_list];
     end
 
 

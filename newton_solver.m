@@ -13,5 +13,4 @@ function [x, x_guesses] = newton_solver(functions, x)
         x_guesses = [x_guesses, x];
     end
     
-    % disp(['Root','xn', num2str(xn), 'f(x)', num2str(fun(xn))]);
 end

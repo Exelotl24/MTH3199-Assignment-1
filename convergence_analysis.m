@@ -13,6 +13,8 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
 
     close all
 
+    method_title = "";
+
     syms x
     dfdx = matlabFunction(diff(fun, x), 'Vars', x);
     functions = {fun, dfdx};
@@ -35,24 +37,27 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
             case 1
                 % bisection
                 [~, x_guesses{i}] = bisection_solver(fun, guess_list1(i), guess_list2(i));
+                method_title = "Bisection Method";
             case 2
                 % newton
                 [~, x_guesses{i}] = newton_solver(functions, guess_list1(i));
+                method_title = "Newton Method";
             case 3
                 % secant
                 [~, x_guesses{i}] = secant_solver(fun, guess_list1(i), guess_list2(i));
+                method_title = "Secant Method";
             case 4
                 % fzero
                 [~, x_guesses{i}] = my_fzero(fun, guess_list1(i));
-    
+                method_title = "fzero method";
         end
-
         
         
         error{1, i} = abs(x_guesses{i}(1:end-1) - x_root);
         error{2, i} = abs(x_guesses{i}(2:end) - x_root);
     
-        loglog(error{1, i},error{2, i} ,'ro','markerfacecolor','r','markersize',3);
+        loglog(error{1, i},error{2, i} ,'ro','markerfacecolor','r','markersize',2);
+
         hold on
         
         % Filter Data
@@ -71,7 +76,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
         
     end
 
-    loglog(X_regression,Y_regression ,'bo','markerfacecolor','b','markersize',3);
+    loglog(X_regression,Y_regression ,'bo','markerfacecolor','b','markersize',2);
 
     [p, k] = generate_error_fit(X_regression, Y_regression)
     
@@ -83,9 +88,13 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     %plot on a loglog plot.
     loglog(fit_line_x,fit_line_y,'k-','linewidth',1)
 
-    xlim([1e-20, 1e5])
-    ylim([1e-20, 1e5])
+    xlim([1e-20, 1e4])
+    ylim([1e-20, 1e4])
     xlabel("\epsilon_{n}")
     ylabel("\epsilon_{n+1}")
+    title(method_title)
+
+    [newton_dfdx,newton_d2fdx2] = approximate_derivative(fun,x_root);
+    newton_k = abs(newton_d2fdx2/(2*newton_dfdx))
 
 end

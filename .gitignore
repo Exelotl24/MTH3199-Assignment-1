@@ -1,0 +1,9 @@
+approximate_derivative.asv
+bisection_solver.asv
+bisection_test_logging.asv
+convergence_analysis.asv
+generate_error_fit.asv
+main.asv
+my_fzero.asv
+newton_solver.asv
+secand_solver.asv

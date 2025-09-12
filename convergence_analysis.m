@@ -17,7 +17,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
 
     syms x
     dfdx = matlabFunction(diff(fun, x), 'Vars', x);
-    functions = {fun, dfdx};
+    functions = {matlabFunction(fun), dfdx};
 
     iters = length(guess_list1);
 
@@ -27,7 +27,8 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     X_regression = [];
     Y_regression = [];
 
-    x_root = fzero(fun, x_guess0);
+    x_root = fzero(functions{1}, x_guess0);
+    [x_root, ~] = newton_solver(functions, 30);
 
 
     figure()
@@ -94,7 +95,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     ylabel("\epsilon_{n+1}")
     title(method_title)
 
-    [newton_dfdx,newton_d2fdx2] = approximate_derivative(fun,x_root);
+    [newton_dfdx,newton_d2fdx2] = approximate_derivative(functions{1},x_root);
     newton_k = abs(newton_d2fdx2/(2*newton_dfdx))
 
 end

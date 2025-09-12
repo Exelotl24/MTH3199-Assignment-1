@@ -28,7 +28,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     Y_regression = [];
 
     x_root = fzero(functions{1}, x_guess0);
-    [x_root, ~] = newton_solver(functions, 30);
+    % [x_root, ~] = newton_solver(functions, 30);
 
 
     figure()

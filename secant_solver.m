@@ -1,4 +1,6 @@
-function [x, x_guesses] = secant_solver(func, x0, x1)
+function [x, x_guesses] = secant_solver(fun, x0, x1)
+
+    syms x
 
     % define tolerance
     tol = 1e-14;
@@ -8,9 +10,11 @@ function [x, x_guesses] = secant_solver(func, x0, x1)
     
     x_guesses = [];
 
+    fun_eval = matlabFunction(fun, 'Vars', x);
+
     while iter < max_iter
-        num = func(x1)*(x1 - x0);
-        den = (func(x1) - func(x0));
+        num = fun_eval(x1)*(x1 - x0);
+        den = (fun_eval(x1) - fun_eval(x0));
 
         % calculate new x
         x = x1 - num/den;
@@ -23,7 +27,7 @@ function [x, x_guesses] = secant_solver(func, x0, x1)
             return
         end
 
-        if abs(func(x)) < tol
+        if abs(fun_eval(x)) < tol
             return
         end
 

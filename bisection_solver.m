@@ -1,12 +1,15 @@
 % bisection_solver finds the roots of a given function starting from two
 % guesses by splitting the data in half each time using recursion
 
-function [x, x_guesses] = bisection_solver(func,x_left,x_right)
+function [x_val, x_guesses] = bisection_solver(fun,x_left,x_right)
 
+    syms x
     tol = 1e-14;
     max_iter = 100;
     iter = 0;
     x_guesses = [];
+
+    fun_eval = matlabFunction(fun, 'Vars', x);
 
     while iter < max_iter
 
@@ -14,16 +17,16 @@ function [x, x_guesses] = bisection_solver(func,x_left,x_right)
         x_mid = (x_left+x_right)/2;
     
         % calculate function for each x value
-        y_left = func(x_left);
-        y_mid = func(x_mid);
-        y_right = func(x_right);
+        y_left = fun_eval(x_left);
+        y_mid = fun_eval(x_mid);
+        y_right = fun_eval(x_right);
     
         % x_guesses(end+1) = x_mid;
     
         
         if abs(y_mid)<tol
             % test if any values are roots
-            x = x_mid;
+            x_val = x_mid;
             return;
         elseif (y_left*y_mid)<0
             % if left and mid are different signs, look for root
@@ -34,7 +37,7 @@ function [x, x_guesses] = bisection_solver(func,x_left,x_right)
             x_guesses(end+1) = x_left;
             x_left = x_mid;
         else
-            x = NaN;
+            x_val = NaN;
             return;
         end
         % x_guesses(end+1) = x_mid;

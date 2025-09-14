@@ -14,6 +14,7 @@ function eggxample01()
     %specify the position and orientation of the egg
     x0 = 5; y0 = 5; theta = pi/6;
 %x and y change pos, theta changes orientation of egg
+    s = .3;
     %set up the axis
     hold on; axis equal; axis square
     axis([0,10,0,10])
@@ -26,9 +27,9 @@ function eggxample01()
 
     plot(V_vals(1,:), V_vals(2,:), 'k', 'linewidth', 2);
     [V_tangent, G_tangent] = egg_func(s_tangent,x0,y0,theta,egg_params);
-%     plot(V_vals(1,:), V_vals(2,:), 'ro', 'markerfacecolor','r', 'markersize', 4);
-%     plot(V_tangent(1), G_tangent(2), 'ro', 'markerfacecolor','r', 'markersize', 4);
-%     plot(V_tangent(1)+[0,G_tangent(1)],V_tangent(2)+[0,G_tangent(2)] k', 'linewidth', 2);
+     plot(V_vals(1,:), V_vals(2,:), 'ro', 'markerfacecolor','r', 'markersize', 4);
+     plot(V_tangent(1), G_tangent(2), 'ro', 'markerfacecolor','r', 'markersize', 4);
+    % plot(V_tangent(1)+[0,G_tangent(1)],V_tangent(2)+[0,G_tangent(2)] k', 'linewidth', 2);
 
     [xmin,xmax,ymin,ymax] = find_bounding_box(x0,y0,theta,egg_params);
     plot([xmin,xmax,xmax,xmin],[ymin,ymax,ymax,ymin]);
@@ -100,7 +101,7 @@ end
 
 function x_root = secant_solver(fun,x_guess0, x_guess1, dxtol, ytol, max_iter, dfdxmin)
 
-    delta_x = 2*dxtol
+    delta_x = 2*dxtol;
 
     fval0 = fun(x_guess0);
     fval1 = fun(x_guess1);

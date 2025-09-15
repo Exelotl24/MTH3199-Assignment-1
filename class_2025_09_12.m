@@ -1,7 +1,9 @@
 %start with newton function orion_newton
-function class_2025_09_12()
+% function class_2025_09_12()
+close all
+clear
     eggxample01();
-end
+% end
 
 %template for how to properly call egg_func
 %also provides example for how to interpret outputs
@@ -9,7 +11,7 @@ function eggxample01()
 
     %set the oval hyper-parameters
     egg_params = struct();
-    egg_params.a = 3; egg_params.b = 2; egg_params.c = .15;
+    egg_params.a = .3; egg_params.b = .2; egg_params.c = 1.5;
 
     %specify the position and orientation of the egg
     x0 = 5; y0 = 5; theta = pi/6;
@@ -17,18 +19,18 @@ function eggxample01()
     s = .3;
     %set up the axis
     hold on; axis equal; axis square
-    axis([0,10,0,10])
+    axis([4,6,4,6])
 
     s_perimeter = linspace(0, 1, 100);
 
-    s_tangent = .3; % arbitrarily form 0-1
+    s_tangent = .3; % arbitrarily form 0-1  
     [V_vals, G_vals] = egg_func(s_perimeter,x0,y0,theta,egg_params);
 
 
     plot(V_vals(1,:), V_vals(2,:), 'k', 'linewidth', 2);
     [V_tangent, G_tangent] = egg_func(s_tangent,x0,y0,theta,egg_params);
-     plot(V_vals(1,:), V_vals(2,:), 'ro', 'markerfacecolor','r', 'markersize', 4);
-     plot(V_tangent(1), G_tangent(2), 'ro', 'markerfacecolor','r', 'markersize', 4);
+%      plot(V_vals(1,:), V_vals(2,:), 'ro', 'markerfacecolor','r', 'markersize', 4);
+%      plot(V_tangent(1), G_tangent(2), 'ro', 'markerfacecolor','r', 'markersize', 4);
     % plot(V_tangent(1)+[0,G_tangent(1)],V_tangent(2)+[0,G_tangent(2)] k', 'linewidth', 2);
 
     [xmin,xmax,ymin,ymax] = find_bounding_box(x0,y0,theta,egg_params);

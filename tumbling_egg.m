@@ -29,12 +29,13 @@ wall_dist = 10;
 
 
 figure()
-plot(x_t, y_t)
+plot(x_t, y_t, 'k--');
 xlim([0, 10])
 ylim([0, 10])
 title("Traj-EGG-tory")
 hold on
 
+animation = plot(x0, y0, 'ro');
 pause(1)
 
 % at each moment in time, look at egg
@@ -45,13 +46,24 @@ for i = 1:length(t)
     y = y_t(i);
     theta = theta_t(i);
 
-    plot(x, y, 'ro')
+    set(animation, 'XData', x, 'YData', y, 'Marker', 'o', 'MarkerFaceColor','b')
+    drawnow;
 
     % find the bounding box
+    [xmin, xmax,ymin,ymax] = find_bounding_box(x,y,theta,egg_params);
 
     % plot egg and bounding box
+    xline(xmin)
+    xline(xmax)
+    yline(ymin)
+    yline(ymax)
 
     % is bounding box in contact with wall or ground?
+    if abs(ymin)< tol
+        break;
+    elseif abs(xmax)<tol
+        break;
+    end
 
     pause(t(end)/length(t))
 

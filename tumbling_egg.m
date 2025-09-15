@@ -35,7 +35,13 @@ ylim([0, 10])
 title("Traj-EGG-tory")
 hold on
 
+
+egg_params()
+plot(V_vals(1,:), V_vals(2,:), 'k', 'linewidth', 2);
+
 animation = plot(x0, y0, 'ro');
+
+
 pause(1)
 
 % at each moment in time, look at egg

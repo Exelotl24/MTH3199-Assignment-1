@@ -55,4 +55,10 @@ convergence_graph(2, functions03(1), x_newton_guesses, x_newton_guesses)
 x_bisection_guesses1 = linspace(0, 50, 200);
 x_bisection_guesses2 = linspace(50, 0, 200);
 
+convergence_graph(1, functions03(1), x_bisection_guesses1, x_bisection_guesses2)
+
+
 convergence_graph(3, functions03(1), x_bisection_guesses1, x_bisection_guesses2)
+
+
+convergence_graph(4, functions03(1), x_bisection_guesses1, x_bisection_guesses2)

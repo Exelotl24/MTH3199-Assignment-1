@@ -28,7 +28,7 @@ function convergence_graph(solver_flag, fun, guess_list1, guess_list2)
                 method_title = "Secant Method";
             case 4
                 % fzero
-                [x, ~] = my_fzero(fun, guess_list1(i));
+                [x, ~] = my_fzero(fun_eval, guess_list1(i));
                 method_title = "fzero method";
         end
         

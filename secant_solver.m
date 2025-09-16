@@ -3,14 +3,18 @@ function [x, x_guesses] = secant_solver(fun, x0, x1)
     syms x
 
     % define tolerance
-    tol = 1e-14;
-    max_iter = 100;
+    tol = 1e-10;
+    max_iter = 200;
 
     iter = 0;
     
     x_guesses = [];
-
-    fun_eval = matlabFunction(fun, 'Vars', x);
+    
+    if isa(fun, 'sym')
+        fun_eval = matlabFunction(fun, 'Vars', x);
+    else
+        fun_eval = fun;
+    end
 
     while iter < max_iter
         num = fun_eval(x1)*(x1 - x0);

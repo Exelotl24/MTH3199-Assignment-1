@@ -9,7 +9,12 @@ function [x_val, x_guesses] = bisection_solver(fun,x_left,x_right)
     iter = 0;
     x_guesses = [];
 
-    fun_eval = matlabFunction(fun, 'Vars', x);
+    if isa(fun, 'sym')
+        fun_eval = matlabFunction(fun, 'Vars', x);
+    else
+        fun_eval = fun;
+    end
+    
 
     while iter < max_iter
 

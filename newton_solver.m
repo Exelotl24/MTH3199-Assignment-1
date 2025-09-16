@@ -8,8 +8,14 @@ function [x_val, x_guesses] = newton_solver(functions, x_val)
     fun = functions(1);
     dfdx = functions(2);
 
-    fun_eval = matlabFunction(fun, 'Vars', x);
-    dfdx_eval = matlabFunction(dfdx, 'Vars', x);
+    if isa(fun, 'sym')
+        fun_eval = matlabFunction(fun, 'Vars', x);
+        dfdx_eval = matlabFunction(dfdx, 'Vars', x);
+    else
+        fun_eval = fun;
+        dfdx_eval = dfdx;
+    end
+    
     x_guesses = [];
 
     iter = 0;

@@ -3,7 +3,7 @@ function [x_val, x_guesses] = newton_solver(functions, x_val)
     syms x
 
     % define tolerance and functions
-    max_iters = 1000;
+    max_iters = 200;
     tol = 1e-6;
     fun = functions(1);
     dfdx = functions(2);

@@ -2,7 +2,7 @@
 close all
 clear
 
-% defining all functions
+% ----------------- defining all functions -------------------------------
 
 syms x
 
@@ -22,29 +22,22 @@ functions03 = [test_func03, test_derivative03];
 % ------------------------------------------------------------------------
 
 % --------------- CONVERGENCE ANALYSIS -----------------------------------
-% filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
-% 
-% 
-% x_root_base = fzero(test_func01,0);
-% 
-% x_guess0 = 0;
-% % x_guesslist1 = randi([-300 x_guess0],1,100);
-% % x_guesslist2 = randi([x_guess0 30],1,100);
-% 
-% num_guesses = 1000;
-% A = 2;
-% % x_guesslist1 = 2*A*(rand(1,num_guesses)-.5)+x_root_base;
-% % x_guesslist2 = 2*A*(rand(1,num_guesses)-.5)+x_root_base;
-% 
-% x_guesslist1 = -2*A*(rand(1,num_guesses))+x_root_base;
-% x_guesslist2 = 2*A*(rand(1,num_guesses))+x_root_base;
-% 
-% % convergence_analysis(2, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
-% 
-% 
-% % newton_solver(functions02, 37)
-% % convergence_analysis(2, test_func02, 30, 0:1:100, 0:1:100, filter_list)
-% 
+filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
+
+x_root_base = fzero(matlabFunction(test_func01, 'Vars', x),0);
+
+x_guess0 = 0;
+num_guesses = 1000;
+A = 2;
+
+x_guesslist1 = -2*A*(rand(1,num_guesses))+x_root_base;
+x_guesslist2 = 2*A*(rand(1,num_guesses))+x_root_base;
+
+convergence_analysis(1, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
+convergence_analysis(2, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
+convergence_analysis(3, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
+convergence_analysis(4, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
+
 
 % -------------------- CONVERGENCE GRAPHING ------------------------------
 

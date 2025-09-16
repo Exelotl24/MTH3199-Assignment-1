@@ -11,13 +11,12 @@
 %filter_list: a list of constants used to filter the collected data
 function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_list2, filter_list)
 
-    close all
 
     method_title = "";
 
     syms x
-    dfdx = matlabFunction(diff(fun, x), 'Vars', x);
-    functions = {matlabFunction(fun), dfdx};
+    dfdx = diff(fun, x);
+    functions = [fun, dfdx];
 
     iters = length(guess_list1);
 
@@ -27,7 +26,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     X_regression = [];
     Y_regression = [];
 
-    x_root = fzero(functions{1}, x_guess0);
+    x_root = fzero(matlabFunction(fun, 'Vars', x), x_guess0);
     % [x_root, ~] = newton_solver(functions, 30);
 
 
@@ -49,7 +48,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
                 method_title = "Secant Method";
             case 4
                 % fzero
-                [~, x_guesses{i}] = my_fzero(fun, guess_list1(i));
+                [~, x_guesses{i}] = my_fzero(matlabFunction(fun, 'Vars', x), guess_list1(i));
                 method_title = "fzero method";
         end
         
@@ -95,7 +94,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     ylabel("\epsilon_{n+1}")
     title(method_title)
 
-    [newton_dfdx,newton_d2fdx2] = approximate_derivative(functions{1},x_root);
+    [newton_dfdx,newton_d2fdx2] = approximate_derivative(matlabFunction(fun, 'Vars', x),x_root);
     newton_k = abs(newton_d2fdx2/(2*newton_dfdx))
 
 end

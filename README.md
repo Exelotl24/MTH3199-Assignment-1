@@ -9,3 +9,5 @@ To see how the different root-finding methods converge and what guesses they nee
 
 ## Tumbling Egg
 To visualize an egg thrown at a wall, run the `tumbling_egg.m` script. This shows an animation and also calculates the time at which the egg would reach either the wall or the ground after being thrown.
+
+[![Watch the video](https://i9.ytimg.com/vi/65tKKn6kJTc/mq2.jpg?sqp=CMSKp8YG-oaymwEmCMACELQB8quKqQMa8AEB-AH-BIAC4AOKAgwIABABGGUgZShlMA8=&rs=AOn4CLAfszw96U4kUC7MU8QLptOeFSrOcQ)](https://youtu.be/65tKKn6kJTc)

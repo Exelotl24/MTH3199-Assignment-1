@@ -24,8 +24,8 @@ function [t_ground,t_wall] = collision_func(traj_func, egg_params, y_ground, x_w
 
     bounding_box_x = @(x) bounding_wrapper_func(x_fun(x), y_fun(x), theta_fun(x), egg_params, y_ground, x_wall, 'x');
     bounding_box_y = @(x) bounding_wrapper_func(x_fun(x), y_fun(x), theta_fun(x), egg_params, y_ground, x_wall, 'y');
-    t_ground = secant_solver(bounding_box_x, 0, 2);
-    t_wall = secant_solver(bounding_box_y, 0, 2);
+    t_ground = secant_solver(bounding_box_y, 0, 2);
+    t_wall = secant_solver(bounding_box_x, 0, 2);
 
     
 end

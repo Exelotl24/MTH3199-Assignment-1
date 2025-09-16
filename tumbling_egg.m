@@ -7,7 +7,7 @@ t = 0:0.01:2;
 
 %set the oval hyper-parameters
 egg_params = struct();
-egg_params.a = 3; egg_params.b = 2; egg_params.c = .15;
+egg_params.a = 0.3; egg_params.b = 0.2; egg_params.c = 1.5;
 
 % define egg initial conditions (starting point & speeds)
 g = 9.8;
@@ -16,7 +16,7 @@ x0 = 0;
 y0_speed = 5;
 x0_speed = 7;
 theta_0 = 0;
-omega = 4;
+omega = 8*pi;
 
 % define egg trajectory function
 y_t = -1./2.*g*t.^2+y0_speed.*t+y0;
@@ -30,14 +30,14 @@ wall_dist = 10;
 
 figure()
 plot(x_t, y_t, 'k--');
-xlim([0, 10])
+xlim([-1, 10])
 ylim([0, 10])
 title("Traj-EGG-tory")
 hold on
 
 
-egg_params()
-plot(V_vals(1,:), V_vals(2,:), 'k', 'linewidth', 2);
+% egg_params()
+% plot(V_vals(1,:), V_vals(2,:), 'k', 'linewidth', 2);
 
 animation = plot(x0, y0, 'ro');
 
@@ -52,24 +52,33 @@ for i = 1:length(t)
     y = y_t(i);
     theta = theta_t(i);
 
-    set(animation, 'XData', x, 'YData', y, 'Marker', 'o', 'MarkerFaceColor','b')
+
+    % at each point, find the egg
+    s_perimeter = linspace(0, 1, 100);
+
+    for s = 1:length(s_perimeter)
+
+        [V_vals, G_vals] = egg_func(s_perimeter,x,y,theta,egg_params);  
+        set(animation, 'XData', V_vals(1,:), 'YData', V_vals(2,:), 'Color', 'k', 'Marker', '.');
+
+    end
     drawnow;
 
-    % find the bounding box
-    [xmin, xmax,ymin,ymax] = find_bounding_box(x,y,theta,egg_params);
-
-    % plot egg and bounding box
-    xline(xmin)
-    xline(xmax)
-    yline(ymin)
-    yline(ymax)
-
-    % is bounding box in contact with wall or ground?
-    if abs(ymin)< tol
-        break;
-    elseif abs(xmax)<tol
-        break;
-    end
+    % % find the bounding box
+    % [xmin, xmax,ymin,ymax] = find_bounding_box(x,y,theta,egg_params);
+    % 
+    % % plot egg and bounding box
+    % xline(xmin)
+    % xline(xmax)
+    % yline(ymin)
+    % yline(ymax)
+    % 
+    % % is bounding box in contact with wall or ground?
+    % if abs(ymin)< tol
+    %     break;
+    % elseif abs(xmax)<tol
+    %     break;
+    % end
 
     pause(t(end)/length(t))
 

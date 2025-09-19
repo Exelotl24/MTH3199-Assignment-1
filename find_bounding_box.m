@@ -1,17 +1,18 @@
 function [xmin, xmax, ymin, ymax] = find_bounding_box(x0,y0,theta,egg_params)
 
+
+    % use provided egg wrapper functions to return coordinates of egg
     egg_wrapper_handle_y = @(s) egg_wrapper_func_y(s,x0,y0,theta,egg_params);
     egg_wrapper_handle_x = @(s) egg_wrapper_func_x(s,x0,y0,theta,egg_params);
 
+    % define step size to test & initialize variables
     s_guess_list = 0:.2:1;
-
-    dxtol = 1e-14;
-    ytol = 1e-14;
-    max_iter = 200;
-    dfdxmin = 1e-8;
-
     x_list = [];
     y_list = [];
+
+
+    % for each step, find where the root of the egg might be, as the edges
+    % of the egg and save them in a list
     for s_guess = s_guess_list
         s_rootx = secant_solver(egg_wrapper_handle_x, s_guess, s_guess+1e-4);
         [V, ~] = egg_func(s_rootx,x0,y0,theta,egg_params);
@@ -23,8 +24,10 @@ function [xmin, xmax, ymin, ymax] = find_bounding_box(x0,y0,theta,egg_params)
 
     end
 
-        xmin = min(x_list);
-        xmax = max(x_list);
-        ymin = min(y_list);
-        ymax = max(y_list);
+    % with a full list of possible boundaries, find the min and max of each
+    % list which is the final boundary used for the bounding box
+    xmin = min(x_list);
+    xmax = max(x_list);
+    ymin = min(y_list);
+    ymax = max(y_list);
 end

@@ -3,12 +3,15 @@
 
 function [x_val, x_guesses] = bisection_solver(fun,x_left,x_right)
 
+    % initialize variables
     syms x
     tol = 1e-14;
     max_iter = 100;
     iter = 0;
     x_guesses = [];
 
+
+    % Make sure function can be called
     if isa(fun, 'sym')
         fun_eval = matlabFunction(fun, 'Vars', x);
     else

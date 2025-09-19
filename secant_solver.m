@@ -2,19 +2,19 @@ function [x, x_guesses] = secant_solver(fun, x0, x1)
 
     syms x
 
-    % define tolerance
+    % define tolerance and initialize variables
     tol = 1e-10;
     max_iter = 200;
-
     iter = 0;
-    
     x_guesses = [];
     
+    % Make sure function can be called
     if isa(fun, 'sym')
         fun_eval = matlabFunction(fun, 'Vars', x);
     else
         fun_eval = fun;
     end
+
 
     while iter < max_iter
         num = fun_eval(x1)*(x1 - x0);
@@ -31,6 +31,7 @@ function [x, x_guesses] = secant_solver(fun, x0, x1)
             return
         end
 
+        % if x is close enough to the root, return!
         if abs(fun_eval(x)) < tol
             return
         end
@@ -40,6 +41,8 @@ function [x, x_guesses] = secant_solver(fun, x0, x1)
 
         iter = iter+1;
     end
+
+    % if did not converge, set x to NaN
     x = NaN;
 
 

@@ -7,7 +7,10 @@ function [x_val, x_guesses] = newton_solver(functions, x_val)
     tol = 1e-6;
     fun = functions(1);
     dfdx = functions(2);
+    x_guesses = [];
+    iter = 0;
 
+    % Make sure function can be called
     if isa(fun, 'sym')
         fun_eval = matlabFunction(fun, 'Vars', x);
         dfdx_eval = matlabFunction(dfdx, 'Vars', x);
@@ -16,9 +19,7 @@ function [x_val, x_guesses] = newton_solver(functions, x_val)
         dfdx_eval = dfdx;
     end
     
-    x_guesses = [];
-
-    iter = 0;
+    
 
     % newton's update loop is x_(n+1) = x_n - f(x_n)/f'(x_n)
     while abs(fun_eval(x_val)) > tol && abs(dfdx_eval(x_val))>tol && iter<max_iters

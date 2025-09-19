@@ -33,9 +33,13 @@ A = 2;
 x_guesslist1 = -2*A*(rand(1,num_guesses))+x_root_base;
 x_guesslist2 = 2*A*(rand(1,num_guesses))+x_root_base;
 
+'bisection'
 convergence_analysis(1, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
+'newton'
 convergence_analysis(2, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
+'secant'
 convergence_analysis(3, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
+'fzero'
 convergence_analysis(4, test_func01, x_guess0, x_guesslist1, x_guesslist2, filter_list)
 
 
